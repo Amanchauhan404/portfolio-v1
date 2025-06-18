@@ -61,8 +61,7 @@ const Index = () => {
 
   // Performance optimizations for different device capabilities
   const scrollMultiplier = isLowEnd ? 0.5 : 1; // Reduce animation intensity on low-end devices
-  const precision = isLowEnd ? 10 : 1; // Round scroll values to reduce calculations
-  const roundedScrollY = Math.round(scrollY / precision) * precision;
+  const roundedScrollY = Math.round(scrollY / (isLowEnd ? 10 : 1));
 
   // Dynamic background that changes based on scroll position
   // Creates a subtle parallax effect with gradient overlays
@@ -76,15 +75,10 @@ const Index = () => {
     }
     
     // Create dynamic background with multiple gradient layers
-    const scrollFactor = roundedScrollY * 0.001;
+    const scrollFactor = roundedScrollY * 0.0005;
     return {
-      background: `
-        radial-gradient(circle at ${20 + scrollFactor * 5}% ${80 - scrollFactor * 2}%, rgba(120, 119, 198, ${0.2 - scrollFactor * 0.05}) 0%, transparent 50%),
-        radial-gradient(circle at ${80 - scrollFactor * 4}% ${20 + scrollFactor * 5}%, rgba(255, 119, 198, ${0.2 - scrollFactor * 0.05}) 0%, transparent 50%),
-        radial-gradient(circle at ${40 + scrollFactor * 2}% ${40 + scrollFactor}%, rgba(120, 219, 255, ${0.1 - scrollFactor * 0.025}) 0%, transparent 50%),
-        linear-gradient(${135 + scrollFactor * 50}deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)
-      `,
-      transform: `scale(${1 + scrollFactor * 0.05})` // Subtle zoom effect
+      background: `linear-gradient(${135 + scrollFactor * 20}deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)`,
+      transform: 'none'
     };
   }, [roundedScrollY, isLowEnd]);
 
@@ -94,13 +88,13 @@ const Index = () => {
     const scroll = roundedScrollY * scrollMultiplier;
     return {
       navbar: {
-        transform: `translateY(${Math.max(0, scroll * -0.25)}px)`, // Navbar moves up slightly
-        backdropFilter: `blur(${Math.min(10, scroll * 0.05)}px)` // Increasing blur effect
+        transform: `translateY(${Math.max(0, scroll * -0.15)}px)`,
+        backdropFilter: `blur(${Math.min(8, scroll * 0.03)}px)`
       },
-      about: { transform: `translateY(${Math.max(0, (scroll - 400) * -0.03)}px)` },
-      skills: { transform: `translateY(${Math.max(0, (scroll - 800) * -0.05)}px)` },
-      projects: { transform: `translateY(${Math.max(0, (scroll - 1200) * -0.07)}px)` },
-      contact: { transform: `translateY(${Math.max(0, (scroll - 1600) * -0.03)}px)` }
+      about: { transform: `translateY(${Math.max(0, (scroll - 400) * -0.02)}px)` },
+      skills: { transform: `translateY(${Math.max(0, (scroll - 800) * -0.03)}px)` },
+      projects: { transform: `translateY(${Math.max(0, (scroll - 1200) * -0.04)}px)` },
+      contact: { transform: `translateY(${Math.max(0, (scroll - 1600) * -0.02)}px)` }
     };
   }, [roundedScrollY, scrollMultiplier]);
 
@@ -129,7 +123,7 @@ const Index = () => {
       {/* Main content with fade-in animation */}
       <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'} relative z-10`}>
         {/* Hero section */}
-        <Hero scrollY={roundedScrollY} isLowEnd={isLowEnd} />
+        <Hero scrollY={scrollY} isLowEnd={isLowEnd} />
         
         {/* About section with parallax */}
         <div className="gpu-layer" style={transforms.about}>
