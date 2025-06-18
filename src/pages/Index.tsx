@@ -1,156 +1,198 @@
-// React hooks for state management and effects
 import { useState, useEffect, useMemo } from "react";
-
-// Main portfolio components
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Contact } from "@/components/Contact";
-
-// Background and animation components
 import { ParticleBackground } from "@/components/ParticleBackground";
-
-// Custom hooks for performance optimization
 import { useOptimizedScroll } from "@/hooks/useOptimizedScroll";
 import { useDeviceDetection } from "@/hooks/useDeviceDetection";
 
 const Index = () => {
-  // Track if the page has finished loading for smooth animations
   const [isLoaded, setIsLoaded] = useState(false);
-  
-  // Get scroll position and device capabilities
-  const scrollY = useOptimizedScroll();
+  const { scrollY, velocity } = useOptimizedScroll();
   const { isLowEnd } = useDeviceDetection();
 
-  // Mark page as loaded after initial render
   useEffect(() => {
     setIsLoaded(true);
+    
+    // Add smooth scrolling CSS
+    document.documentElement.style.scrollBehavior = 'smooth';
+    
+    return () => {
+      document.documentElement.style.scrollBehavior = 'auto';
+    };
   }, []);
 
-  // Set up intersection observer for scroll-triggered animations
-  // This creates a nice reveal effect as sections come into view
   useEffect(() => {
     const observerOptions = {
-      threshold: isLowEnd ? 0.1 : 0.05, // Lower threshold for low-end devices
-      rootMargin: "0px 0px -50px 0px" // Start animation slightly before element is fully visible
+      threshold: isLowEnd ? 0.15 : 0.1,
+      rootMargin: "0px 0px -100px 0px"
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // Add animation class and remove initial hidden state
           entry.target.classList.add("animate-reveal");
           entry.target.classList.remove("opacity-0", "translate-y-20");
-          observer.unobserve(entry.target); // Stop observing once animated
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    // Apply initial hidden state to all sections
-    const sections = document.querySelectorAll("section");
+    const sections = document.querySelectorAll("section:not(#home)");
     sections.forEach((section) => {
-      section.classList.add("opacity-0", "translate-y-20", "transition-all", "duration-700", "ease-out");
+      section.classList.add("opacity-0", "translate-y-20", "transition-all", "duration-1000", "ease-out");
       observer.observe(section);
     });
 
-    // Cleanup observer on unmount
     return () => observer.disconnect();
   }, [isLoaded, isLowEnd]);
 
-  // Performance optimizations for different device capabilities
-  const scrollMultiplier = isLowEnd ? 0.5 : 1; // Reduce animation intensity on low-end devices
-  const roundedScrollY = Math.round(scrollY / (isLowEnd ? 10 : 1));
+  const scrollMultiplier = isLowEnd ? 0.3 : 0.8;
+  const smoothScrollY = useMemo(() => scrollY, [scrollY]);
 
-  // Dynamic background that changes based on scroll position
-  // Creates a subtle parallax effect with gradient overlays
   const backgroundStyles = useMemo(() => {
     if (isLowEnd) {
-      // Simplified background for better performance on low-end devices
       return {
         background: `linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)`,
         transform: 'none'
       };
     }
     
-    // Create dynamic background with multiple gradient layers
-    const scrollFactor = roundedScrollY * 0.0005;
+    const scrollFactor = smoothScrollY * 0.0003;
+    const velocityEffect = velocity * 0.01;
+    
     return {
-      background: `linear-gradient(${135 + scrollFactor * 20}deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)`,
-      transform: 'none'
+      background: `
+        linear-gradient(${135 + scrollFactor * 15 + velocityEffect}deg, 
+          #0f0f23 0%, 
+          #1a1a2e 30%, 
+          #16213e 60%, 
+          #0f0f23 100%)
+      `,
+      transform: `scale(${1 + scrollFactor * 0.1})`,
+      transition: 'all 0.1s ease-out'
     };
-  }, [roundedScrollY, isLowEnd]);
+  }, [smoothScrollY, velocity, isLowEnd]);
 
-  // Parallax transforms for different sections
-  // Each section moves at a different rate for depth effect
   const transforms = useMemo(() => {
-    const scroll = roundedScrollY * scrollMultiplier;
+    const scroll = smoothScrollY * scrollMultiplier;
+    const smoothVelocity = velocity * 0.05;
+    
     return {
       navbar: {
-        transform: `translateY(${Math.max(0, scroll * -0.15)}px)`,
-        backdropFilter: `blur(${Math.min(8, scroll * 0.03)}px)`
+        transform: `translateY(${Math.max(0, scroll * -0.1)}px) translateX(${smoothVelocity}px)`,
+        backdropFilter: `blur(${Math.min(12, scroll * 0.02)}px)`,
+        transition: 'all 0.1s ease-out'
       },
-      about: { transform: `translateY(${Math.max(0, (scroll - 400) * -0.02)}px)` },
-      skills: { transform: `translateY(${Math.max(0, (scroll - 800) * -0.03)}px)` },
-      projects: { transform: `translateY(${Math.max(0, (scroll - 1200) * -0.04)}px)` },
-      contact: { transform: `translateY(${Math.max(0, (scroll - 1600) * -0.02)}px)` }
+      about: { 
+        transform: `translateY(${Math.max(0, (scroll - 300) * -0.15)}px) translateX(${smoothVelocity * 0.5}px)`,
+        transition: 'transform 0.2s ease-out'
+      },
+      skills: { 
+        transform: `translateY(${Math.max(0, (scroll - 600) * -0.2)}px) translateX(${-smoothVelocity * 0.3}px)`,
+        transition: 'transform 0.15s ease-out'
+      },
+      projects: { 
+        transform: `translateY(${Math.max(0, (scroll - 900) * -0.25)}px) translateX(${smoothVelocity * 0.4}px)`,
+        transition: 'transform 0.1s ease-out'
+      },
+      contact: { 
+        transform: `translateY(${Math.max(0, (scroll - 1200) * -0.1)}px)`,
+        transition: 'transform 0.2s ease-out'
+      }
     };
-  }, [roundedScrollY, scrollMultiplier]);
+  }, [smoothScrollY, scrollMultiplier, velocity]);
 
-  // Calculate scroll progress for the progress bar
   const progressScale = useMemo(() => {
-    const maxScroll = document.body.scrollHeight - window.innerHeight;
-    return Math.min(1, roundedScrollY / maxScroll);
-  }, [roundedScrollY]);
+    const maxScroll = Math.max(document.body.scrollHeight - window.innerHeight, 1);
+    return Math.min(1, smoothScrollY / maxScroll);
+  }, [smoothScrollY]);
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
-      {/* Dynamic background with parallax effect */}
+      {/* Enhanced dynamic background */}
       <div 
         className="fixed inset-0 z-0 gpu-layer"
         style={backgroundStyles}
       />
       
-      {/* Animated particle background */}
+      {/* Additional background layers for depth */}
+      {!isLowEnd && (
+        <>
+          <div 
+            className="fixed inset-0 z-0 opacity-30 gpu-layer"
+            style={{
+              background: 'radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)',
+              transform: `translateY(${smoothScrollY * 0.1}px) rotate(${smoothScrollY * 0.01}deg)`,
+              transition: 'transform 0.2s ease-out'
+            }}
+          />
+          <div 
+            className="fixed inset-0 z-0 opacity-20 gpu-layer"
+            style={{
+              background: 'conic-gradient(from 0deg at 50% 50%, rgba(59, 130, 246, 0.05) 0deg, rgba(139, 92, 246, 0.05) 120deg, rgba(236, 72, 153, 0.05) 240deg, rgba(59, 130, 246, 0.05) 360deg)',
+              transform: `translateY(${smoothScrollY * -0.05}px) rotate(${smoothScrollY * 0.02}deg)`,
+              transition: 'transform 0.3s ease-out'
+            }}
+          />
+        </>
+      )}
+      
       <ParticleBackground />
       
-      {/* Navigation bar with scroll-based effects */}
       <div className="gpu-layer" style={transforms.navbar}>
         <Navbar />
       </div>
       
-      {/* Main content with fade-in animation */}
-      <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'} relative z-10`}>
-        {/* Hero section */}
-        <Hero scrollY={scrollY} isLowEnd={isLowEnd} />
+      <div className={`transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} relative z-10`}>
+        <Hero scrollY={smoothScrollY} velocity={velocity} isLowEnd={isLowEnd} />
         
-        {/* About section with parallax */}
         <div className="gpu-layer" style={transforms.about}>
           <About />
         </div>
         
-        {/* Skills section with parallax */}
         <div className="gpu-layer" style={transforms.skills}>
           <Skills />
         </div>
         
-        {/* Projects section with parallax */}
         <div className="gpu-layer" style={transforms.projects}>
           <Projects />
         </div>
         
-        {/* Contact section with parallax */}
         <div className="gpu-layer" style={transforms.contact}>
           <Contact />
         </div>
       </div>
 
-      {/* Scroll progress bar at the top */}
+      {/* Enhanced scroll progress bar */}
       <div 
-        className="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-50 origin-left gpu-layer"
-        style={{ transform: `scaleX(${progressScale})` }}
+        className="fixed top-0 left-0 w-full h-1 z-50 origin-left gpu-layer"
+        style={{ 
+          background: `linear-gradient(90deg, 
+            rgba(59, 130, 246, 0.8) 0%, 
+            rgba(139, 92, 246, 0.9) 50%, 
+            rgba(236, 72, 153, 0.8) 100%)`,
+          transform: `scaleX(${progressScale})`,
+          boxShadow: `0 0 10px rgba(59, 130, 246, 0.6)`,
+          transition: 'transform 0.1s ease-out'
+        }}
       />
+      
+      {/* Glowing progress indicator */}
+      {!isLowEnd && (
+        <div 
+          className="fixed top-0 left-0 w-2 h-2 bg-blue-400 rounded-full z-50 gpu-layer"
+          style={{ 
+            left: `${progressScale * 100}%`,
+            transform: 'translateX(-50%)',
+            boxShadow: '0 0 20px rgba(59, 130, 246, 0.8)',
+            transition: 'left 0.1s ease-out'
+          }}
+        />
+      )}
     </div>
   );
 };

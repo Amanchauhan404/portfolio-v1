@@ -1,20 +1,23 @@
-// Custom hook for optimized scroll position tracking
-// Uses requestAnimationFrame and throttling for better performance
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export const useOptimizedScroll = () => {
-  const scrollYRef = useRef(0);
+  const [scrollY, setScrollY] = useState(0);
   const ticking = useRef(false);
+  const lastScrollY = useRef(0);
+  const velocity = useRef(0);
 
-  // Throttled scroll handler for better performance
-  // Limits updates to ~60fps to prevent excessive re-renders
+  const updateScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    velocity.current = currentScrollY - lastScrollY.current;
+    lastScrollY.current = currentScrollY;
+    setScrollY(currentScrollY);
+    ticking.current = false;
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       if (!ticking.current) {
-        window.requestAnimationFrame(() => {
-          scrollYRef.current = window.scrollY;
-          ticking.current = false;
-        });
+        requestAnimationFrame(updateScroll);
         ticking.current = true;
       }
     };
@@ -22,11 +25,10 @@ export const useOptimizedScroll = () => {
     // Use passive listener for better scroll performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Cleanup function to remove listener and cancel any pending frames
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [updateScroll]);
 
-  return scrollYRef.current;
+  return { scrollY, velocity: velocity.current };
 };
