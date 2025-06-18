@@ -1,0 +1,62 @@
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .gpu-layer {
+    contain: strict;
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(4px);
+  }
+  
+  .glow-effect {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.1);
+  }
+  
+  .text-shadow-neon {
+    text-shadow: 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+  
+  .animate-particle-float {
+    animation: none;
+  }
+  
+  .animate-spin-slow {
+    animation: none;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .gpu-layer {
+    will-change: auto !important;
+    transform: none !important;
+  }
+}
+
+/* High refresh rate optimization */
+@media (min-resolution: 120dpi) {
+  .gpu-layer {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .gradient-text {
+    background-size: 150% 150%;
+  }
+}
