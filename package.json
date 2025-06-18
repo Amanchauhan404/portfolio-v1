@@ -1,9 +1,9 @@
 {
-  "name": "arun-chauhan-portfolio",
+  "name": "aman-chauhan-portfolio",
   "private": true,
   "version": "1.0.0",
-  "description": "Arun Chauhan's personal portfolio website built with React, TypeScript, and Tailwind CSS",
-  "author": "Arun Chauhan",
+  "description": "Aman Chauhan's personal portfolio website built with React, TypeScript, and Tailwind CSS",
+  "author": "Aman Chauhan",
   "type": "module",
   "scripts": {
     "dev": "vite",

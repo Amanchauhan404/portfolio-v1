@@ -15,23 +15,23 @@ const NotFound = () => {
     );
   }, [location.pathname]);
 
+  console.log(`404 - Page not found: ${location.pathname}`);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center">
         {/* 404 error code */}
-        <h1 className="text-4xl font-bold mb-4">404</h1>
+        <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
         
         {/* User-friendly error message */}
-        <p className="text-xl text-gray-600 mb-4">
-          Oops! The page you're looking for doesn't exist
-        </p>
+        <p className="text-xl text-muted-foreground mb-8">Page not found</p>
         
         {/* Navigation link back to home */}
         <a 
           href="/" 
-          className="text-blue-500 hover:text-blue-700 underline transition-colors duration-200"
+          className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
         >
-          Return to Home
+          Go back home
         </a>
       </div>
     </div>

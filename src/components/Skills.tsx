@@ -32,7 +32,6 @@ export const Skills = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Animate skill bars with delays
           skills.forEach((_, index) => {
             setTimeout(() => {
               setAnimatedSkills(prev => [...prev, index]);

@@ -1,4 +1,4 @@
-# Arun Chauhan - Frontend Developer Portfolio
+# Aman Chauhan - Frontend Developer Portfolio
 
 A modern, responsive portfolio website showcasing my skills and projects as a frontend developer. Built with React, TypeScript, and Tailwind CSS.
 
@@ -31,7 +31,7 @@ Make sure you have Node.js installed (version 16 or higher). You can install it 
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd arun-chauhan-portfolio
+   cd aman-chauhan-portfolio
    ```
 
 2. **Install dependencies**
@@ -129,10 +129,10 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Contact
 
-- **Email**: chauhanarun838@gmail.com
+- **Email**: chauhanaman838@gmail.com
 - **LinkedIn**: [Your LinkedIn Profile]
 - **GitHub**: [Your GitHub Profile]
 
 ---
 
-Built with ❤️ by Arun Chauhan
+Built with ❤️ by Aman Chauhan

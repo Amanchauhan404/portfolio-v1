@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useMemo } from "react";
 import { useDeviceDetection } from "@/hooks/useDeviceDetection";
 
@@ -19,8 +18,7 @@ export const ParticleBackground = () => {
   useEffect(() => {
     const generateParticles = () => {
       const newParticles: Particle[] = [];
-      // Aggressive reduction for low-end devices
-      let particleCount = 60;
+      let particleCount = 50;
       
       if (isLowEnd) particleCount = 15;
       else if (isMobile) particleCount = 25;

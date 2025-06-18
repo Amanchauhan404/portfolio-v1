@@ -23,16 +23,16 @@ export const Contact = () => {
         from_name: formData.name,
         from_email: formData.email,
         message: formData.message,
-        to_email: 'chauhanarun838@gmail.com'
+        to_email: 'chauhanaman700@gmail.com'
       };
 
       console.log('Sending email with params:', templateParams);
 
       const result = await emailjs.send(
-        'service_jjtq5dm', // Your service ID
-        'template_hzp4eon', // Your actual template ID
+        'service_jjtq5dm',
+        'template_hzp4eon',
         templateParams,
-        '2jFExJDmFtXtLx_A3' // Your public key
+        '2jFExJDmFtXtLx_A3'
       );
 
       console.log('EmailJS Success:', result);
@@ -51,6 +51,14 @@ export const Contact = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleEmailClick = () => {
+    window.open('mailto:chauhanaman700@gmail.com', '_blank');
+  };
+
+  const handleGitHubClick = () => {
+    window.open('https://github.com/Amanchauhan404', '_blank');
   };
 
   return (
@@ -136,38 +144,32 @@ export const Contact = () => {
             </div>
 
             <div className="space-y-4">
-              <Card className="p-6 glass-effect hover:glow-effect transition-all duration-300">
+              <Card 
+                className="p-6 glass-effect hover:glow-effect transition-all duration-300 cursor-pointer transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20"
+                onClick={handleEmailClick}
+              >
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
                     📧
                   </div>
                   <div>
                     <h4 className="font-semibold">Email</h4>
-                    <p className="text-muted-foreground">hello@developer.com</p>
+                    <p className="text-muted-foreground">chauhanaman700@gmail.com</p>
                   </div>
                 </div>
               </Card>
 
-              <Card className="p-6 glass-effect hover:glow-effect transition-all duration-300">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-                    💼
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">LinkedIn</h4>
-                    <p className="text-muted-foreground">linkedin.com/in/developer</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 glass-effect hover:glow-effect transition-all duration-300">
+              <Card 
+                className="p-6 glass-effect hover:glow-effect transition-all duration-300 cursor-pointer transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
+                onClick={handleGitHubClick}
+              >
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                     🐙
                   </div>
                   <div>
                     <h4 className="font-semibold">GitHub</h4>
-                    <p className="text-muted-foreground">github.com/developer</p>
+                    <p className="text-muted-foreground">github.com/Amanchauhan404</p>
                   </div>
                 </div>
               </Card>

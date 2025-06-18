@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 
@@ -8,20 +7,20 @@ export const About = () => {
   const timeline = [
     {
       year: "2024",
-      title: "Senior Frontend Developer",
-      description: "Leading frontend development projects with modern frameworks",
+      title: "Client Projects",
+      description: "Delivering custom web solutions for diverse client needs",
       color: "from-blue-500 to-purple-500"
     },
     {
-      year: "2022",
-      title: "Frontend Developer",
-      description: "Building responsive web applications and user interfaces",
+      year: "2023",
+      title: "Full-Stack Skills",
+      description: "Mastering both frontend and backend development technologies",
       color: "from-purple-500 to-pink-500"
     },
     {
-      year: "2020",
-      title: "Started Coding Journey",
-      description: "Began learning web development technologies",
+      year: "2022",
+      title: "UI/UX Design",
+      description: "Creating intuitive and responsive user interfaces",
       color: "from-pink-500 to-red-500"
     }
   ];
@@ -75,27 +74,10 @@ export const About = () => {
               </p>
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 blur-sm rounded-lg" />
             </div>
-            
-            <div className="grid grid-cols-2 gap-6 mt-8">
-              <div className="text-center group">
-                <div className="relative">
-                  <div className="text-3xl font-bold text-primary mb-2 group-hover:animate-bounce">50+</div>
-                  <div className="absolute inset-0 text-3xl font-bold text-primary/30 blur-sm animate-pulse">50+</div>
-                </div>
-                <div className="text-muted-foreground">Projects Completed</div>
-              </div>
-              <div className="text-center group">
-                <div className="relative">
-                  <div className="text-3xl font-bold text-primary mb-2 group-hover:animate-bounce">3+</div>
-                  <div className="absolute inset-0 text-3xl font-bold text-primary/30 blur-sm animate-pulse">3+</div>
-                </div>
-                <div className="text-muted-foreground">Years Experience</div>
-              </div>
-            </div>
           </div>
 
           <div className={`space-y-4 transition-all duration-1000 delay-700 ${isVisible ? 'animate-fade-in-right' : 'opacity-0'}`}>
-            <h3 className="text-2xl font-bold mb-6 gradient-text">My Journey</h3>
+            <h3 className="text-2xl font-bold mb-6 gradient-text">My Expertise</h3>
             {timeline.map((item, index) => (
               <Card
                 key={index}

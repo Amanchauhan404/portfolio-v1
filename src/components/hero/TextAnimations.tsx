@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 interface TextAnimationsProps {
@@ -11,7 +10,7 @@ interface TextAnimationsProps {
 
 export const TextAnimations = ({ transforms }: TextAnimationsProps) => {
   const [displayText, setDisplayText] = useState("");
-  const fullText = "Frontend Developer";
+  const fullText = "Aman Chauhan";
   const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
@@ -55,13 +54,13 @@ export const TextAnimations = ({ transforms }: TextAnimationsProps) => {
       <div className="relative mb-12 gpu-layer" style={transforms.description}>
         <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
           <span className="inline-block animate-fade-in-left" style={{ animationDelay: '0.5s' }}>
-            Crafting beautiful,
+            Frontend Developer
           </span>{' '}
           <span className="inline-block animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
-            interactive web experiences
+            passionate about creating
           </span>{' '}
           <span className="inline-block animate-fade-in-right" style={{ animationDelay: '0.9s' }}>
-            with modern technologies.
+            amazing web experiences.
           </span>
         </p>
       </div>
