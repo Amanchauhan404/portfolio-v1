@@ -123,17 +123,11 @@ The portfolio is optimized for performance with:
 
 ## 🤝 Contributing
 
-This is a personal portfolio project, but if you find any bugs or have suggestions, feel free to open an issue or submit a pull request.
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+This is a personal portfolio project, but if you find any bugs or have suggestions, feel free to open an issue 
 
 ## 📞 Contact
 
-- **Email**: chauhanaman838@gmail.com
-- **LinkedIn**: [Your LinkedIn Profile]
-- **GitHub**: [Your GitHub Profile]
+- **Email**: chauhanaman7000@gmail.com
 
 ---
 
